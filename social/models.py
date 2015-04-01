@@ -24,11 +24,11 @@ class Message(models.Model):
 
 	# django automatically adds a primary key under attribute name 'id'
 	id = models.IntegerField(primary_key=True)
-	user = models.ForeignKey(Member)
+	user = models.CharField(max_length=16)
 	auth = models.CharField(max_length=16)
 	recip = models.CharField(max_length=16)
 	pm = models.BooleanField(default=False)
-	time = models.DateTimeField()
+	time = models.DateTimeField(auto_now=True)
 	message = models.CharField(max_length=4096)
 
 	def __str__(self):

@@ -5,6 +5,18 @@ from social.models import Member, Profile, Message
 
 appname = 'Facemagazine'
 
+
+def index_redirect(request):
+	appname = 'Facemagazine'
+	index_redirect = loader.get_template('social/index.html')
+	index_context = RequestContext(request, {
+		'appname': appname,
+		'loggedin': False,
+		})
+
+	return HttpResponse(index_redirect.render(index_context))
+
+
 def index(request):
 	template = loader.get_template('social/index.html')
 	context = RequestContext(request, {
@@ -25,14 +37,20 @@ def messages(request):
 				'messages': messages_table,
 			})
 
+		if 'text' in request.POST:
+			message = request.POST['text']
+			user = username
+			auth = username
+			recip = username # needs to be corrected
+			pm = request.POST['pm']
+
+			member = Message(user=user, auth=auth, recip=recip, pm=pm, message=message)
+			member.save()
+
 		return HttpResponse(template.render(context))
 	else:
-		index_redirect = loader.get_template('social/index.html')
-		context = RequestContext(request, {
-		'appname': appname,
-		'loggedin': False,
-		})
-		return HttpResponse(index_redirect.render(context))
+		return index_redirect(request)
+
 
 def signup(request):
 	template = loader.get_template('social/signup.html')
@@ -40,6 +58,7 @@ def signup(request):
 			'appname': appname,
 		})
 	return HttpResponse(template.render(context))
+
 
 def register(request):
 	u = request.POST['user']
@@ -52,6 +71,7 @@ def register(request):
 		'username' : u
 		})
 	return HttpResponse(template.render(context))
+
 
 def login(request):
 	if 'username' not in request.POST:
@@ -78,6 +98,7 @@ def login(request):
 		else:
 			raise Http404("Incorrect password")
 
+
 def logout(request):
 	if 'username' in request.session:
 		u = request.session['username']
@@ -90,6 +111,7 @@ def logout(request):
 		return HttpResponse(template.render(context))
 	else:
 		raise Http404("Can't logout, you are not logged in")
+
 
 def member(request, view_user):
 	if 'username' in request.session:
@@ -113,12 +135,8 @@ def member(request, view_user):
 			'loggedin': True}
 			)
 	else:
-		index_redirect = loader.get_template('social/index.html')
-		context = RequestContext(request, {
-		'appname': appname,
-		'loggedin': False,
-		})
-		return HttpResponse(index_redirect.render(context))
+		return index_redirect(request)
+
 
 def friends(request):
 	if 'username' in request.session:
@@ -138,12 +156,8 @@ def friends(request):
 			'loggedin': True}
 			)
 	else:
-		index_redirect = loader.get_template('social/index.html')
-		context = RequestContext(request, {
-		'appname': appname,
-		'loggedin': False,
-		})
-		return HttpResponse(index_redirect.render(context))
+		return index_redirect(request)
+
 
 def members(request):
 	if 'username' in request.session:
@@ -181,12 +195,8 @@ def members(request):
 				'loggedin': True}
 				)
 	else:
-		index_redirect = loader.get_template('social/index.html')
-		context = RequestContext(request, {
-		'appname': appname,
-		'loggedin': False,
-		})
-		return HttpResponse(index_redirect.render(context))
+		return index_redirect(request)
+
 
 def profile(request):
 	if 'username' in request.session:
@@ -214,12 +224,8 @@ def profile(request):
 			'loggedin': True}
 			)
 	else:
-		index_redirect = loader.get_template('social/index.html')
-		context = RequestContext(request, {
-		'appname': appname,
-		'loggedin': False,
-		})
-		return HttpResponse(index_redirect.render(context))
+		return index_redirect(request)
+
 
 def checkuser(request):
 	if 'user' in request.POST:
