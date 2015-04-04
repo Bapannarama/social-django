@@ -5,7 +5,11 @@ from social.models import Member, Profile, Message
 
 appname = 'Facemagazine'
 
+<<<<<<< HEAD
 # this function deals with the redirect to the index page if a
+=======
+
+>>>>>>> 52506c1fd0f346afe15e81538ee2893deee90683
 def index_redirect(request):
 	appname = 'Facemagazine'
 	index_redirect = loader.get_template('social/index.html')
@@ -34,6 +38,7 @@ def messages(request):
 				'appname': appname,
 				'username': username,
 				'loggedin': True,
+<<<<<<< HEAD
 				'messages_database': messages_table, # namespace clash took 3 hours to solve :(
 			})
 
@@ -54,6 +59,21 @@ def messages(request):
 			text.save()
 
 		# HttpResponse contains the data which is passed to the template manager
+=======
+				'messages': messages_table,
+			})
+
+		if 'text' in request.POST:
+			message = request.POST['text']
+			user = username
+			auth = username
+			recip = username # needs to be corrected
+			pm = request.POST['pm']
+
+			member = Message(user=user, auth=auth, recip=recip, pm=pm, message=message)
+			member.save()
+
+>>>>>>> 52506c1fd0f346afe15e81538ee2893deee90683
 		return HttpResponse(template.render(context))
 	else:
 		return index_redirect(request)
@@ -139,8 +159,12 @@ def member(request, view_user):
 			'username': username,
 			'greeting': greeting,
 			'profile': text,
+<<<<<<< HEAD
 			'loggedin': True,
 			'member': member.username} # member field sent in order to be able to include username in URL
+=======
+			'loggedin': True}
+>>>>>>> 52506c1fd0f346afe15e81538ee2893deee90683
 			)
 	else:
 		return index_redirect(request)
@@ -245,6 +269,7 @@ def checkuser(request):
 		if member is not None:
 			return HttpResponse("<span class='taken'>&nbsp;&#x2718; This username is taken</span>")
 		else:
+<<<<<<< HEAD
 			return HttpResponse("<span class='available'>&nbsp;&#x2714; This username is available</span>")
 
 
@@ -253,3 +278,6 @@ def api(request):
 	template = loader.get_template('social/api.html')
 	context = RequestContext(request, {'messages_database': messages_table,})
 	return HttpResponse(template.render(context))
+=======
+			return HttpResponse("<span class='available'>&nbsp;&#x2714; This username is available</span>")
+>>>>>>> 52506c1fd0f346afe15e81538ee2893deee90683

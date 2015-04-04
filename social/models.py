@@ -17,11 +17,19 @@ class Member(models.Model):
 	def __str__(self):
 		return self.username
 
+<<<<<<< HEAD
 #
+=======
+
+>>>>>>> 52506c1fd0f346afe15e81538ee2893deee90683
 class Message(models.Model):
 	# class attributes have been mirrored from original PHP code with slight
 	# modification to types
 
+<<<<<<< HEAD
+=======
+	# django automatically adds a primary key under attribute name 'id'
+>>>>>>> 52506c1fd0f346afe15e81538ee2893deee90683
 	id = models.IntegerField(primary_key=True)
 	user = models.CharField(max_length=16)
 	auth = models.CharField(max_length=16)

@@ -1,6 +1,10 @@
 {% extends "social/base.html" %}
 
 <!--messages HTML template lifted mostly from messages.php file of original social network-->
+<<<<<<< HEAD
+=======
+
+>>>>>>> 52506c1fd0f346afe15e81538ee2893deee90683
 {% block content %}
 <div class='main'>
 <h3>Your Message</h3>
@@ -14,6 +18,7 @@
 		<input type='submit' value='Post Message'></form><br>
 	</form>
 </div>
+<<<<<<< HEAD
 
 <br>
 <!--display messages to screen loop - logic copied from original social network code-->
@@ -26,6 +31,16 @@
 		wrote: {{msg.message}} <br>
 	{% endif %}
 {%endif%}
+=======
+<br>
+
+{% for msg in messages %}
+	{% if msg.pm == 1 %}
+		{{msg.time}}: <a href="/social/members/?view={{msg.auth}}">{{msg.auth}}</a> whispered: {{msg.message}}
+	{% else %}
+		{{msg.time}}: <a href="/social/members/?view={{msg.auth}}">{{msg.auth}}</a> wrote: {{msg.message}}
+	{% endif %}
+>>>>>>> 52506c1fd0f346afe15e81538ee2893deee90683
 {% endfor %}
 
 <br>
